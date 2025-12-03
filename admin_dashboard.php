@@ -249,7 +249,7 @@ try {
         <p>Add or edit services using the form below. Click a service's Edit button to populate the form.</p>
         <hr>
         <h3>Quick Actions</h3>
-        <p><a href="admin_calendar.php" style="text-decoration: none;">📅 Open Calendar</a></p>
+        <p>Manage services efficiently from this dashboard.</p>
       </aside>
       
       <div>

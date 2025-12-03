@@ -118,8 +118,6 @@ try {
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Home - Welcome <?= htmlspecialchars($user_name) ?></title>
 <link rel="stylesheet" href="dashboard.css" />
-<!-- FullCalendar stylesheet placed in head to avoid layout flash -->
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
 </head>
 <body>
 <header class="site-header" role="banner">
@@ -174,16 +172,8 @@ try {
   </div>
 </section>
 
-<!-- Calendar + Booking Form area -->
+<!-- Booking Form & Appointments Combined Section -->
 <main class="page-container">
-
-  <!-- Calendar -->
-  <section aria-labelledby="calendar-title" style="margin-top:2rem;">
-    <h2 id="calendar-title" class="section-title">Your Calendar</h2>
-    <div id="user-calendar" style="background:#fff; border-radius:12px; padding:0.75rem; box-shadow:var(--shadow);"></div>
-  </section>
-
-  <!-- Booking Form & Appointments Combined Section -->
   <section id="booking" aria-labelledby="booking-title" style="margin-top:1.75rem;">
   <h2 id="booking-title" class="section-title">Book a Service & Manage Appointments</h2>
 
@@ -385,8 +375,6 @@ try {
   </div>
   <p style="text-align:center; margin:1rem 0 0; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); opacity:0.75; font-size:0.85rem;">© 2025 Hotel System. All rights reserved.</p>
 </footer>
-<!-- FullCalendar script -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
 
 <script>
   // Mobile navigation toggle
@@ -464,45 +452,6 @@ try {
         window.location.href = el.getAttribute('href');
       }
     });
-  });
-
-  // Prepare FullCalendar events from PHP appointments
-  const fcEvents = [
-    <?php foreach ($appointments as $a):
-        $start = date('c', strtotime($a['appointment_datetime']));
-        $title = addslashes($a['service_name']);
-        $id = (int)$a['id'];
-        $status = htmlspecialchars($a['status']);
-        echo "{ id: {$id}, title: '{$title}', start: '{$start}', extendedProps: { status: '{$status}' } },\n";
-    endforeach; ?>
-  ];
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const calendarEl = document.getElementById('user-calendar');
-    if (!calendarEl) return;
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      height: 600,
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      events: fcEvents,
-      eventClick: function(info) {
-        // on event click show options
-        const id = info.event.id;
-        const choice = confirm('Open appointment actions? OK = Reschedule, Cancel = Cancel appointment');
-        if (choice) {
-          window.location.href = 'reschedule_appointment.php?id=' + id;
-        } else {
-          if (confirm('Are you sure you want to cancel this appointment?')) {
-            window.location.href = 'cancel_appointment.php?id=' + id;
-          }
-        }
-      }
-    });
-    calendar.render();
   });
 </script>
 </body>
