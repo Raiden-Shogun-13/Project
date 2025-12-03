@@ -1,8 +1,12 @@
 <?php
-require 'db.php';
-require 'functions.php';
-require 'mail.php';
-redirect_if_not_logged_in();
+// Only include if not already included by index.php
+if (!isset($pdo)) {
+    session_start();
+    require 'db.php';
+    require 'functions.php';
+    require 'mail.php';
+    redirect_if_not_logged_in();
+}
 
 $user_id = $_SESSION['user_id'];
 $user_name = $_SESSION['user_name'] ?? 'User';
