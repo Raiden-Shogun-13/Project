@@ -1,8 +1,6 @@
 <?php
-session_start();
-require 'db.php';
-require 'functions.php';
-require 'mail.php';
+// Database connection and functions already loaded by index.php
+// This file is included by index.php
 
 $errors = [];
 

@@ -1,12 +1,7 @@
 <?php
-// Only include if not already included by index.php
-if (!isset($pdo)) {
-    session_start();
-    require 'db.php';
-    require 'functions.php';
-    require 'mail.php';
-    redirect_if_not_logged_in();
-}
+// Database connection and functions already loaded by index.php
+// This file is included by index.php after successful database connection
+redirect_if_not_logged_in();
 
 $user_id = $_SESSION['user_id'];
 $user_name = $_SESSION['user_name'] ?? 'User';
