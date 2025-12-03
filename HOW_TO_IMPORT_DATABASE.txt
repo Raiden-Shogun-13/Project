@@ -1,0 +1,162 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                 HOW TO IMPORT DATABASE TO INFINITYFREE                        ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+You have 3 OPTIONS to set up your database:
+
+════════════════════════════════════════════════════════════════════════════════
+OPTION 1: Import database.sql via phpMyAdmin (RECOMMENDED)
+════════════════════════════════════════════════════════════════════════════════
+
+STEP 1: Get the SQL file
+  - Download database.sql from your project folder
+  - Keep it on your computer
+
+STEP 2: Open phpMyAdmin
+  - Go to InfinityFree MySQL Databases page
+  - Click the blue "Admin" button next to your database
+  - This opens phpMyAdmin in a new window
+
+STEP 3: Import the SQL file
+  ┌─────────────────────────────────────────────────────────┐
+  │ In phpMyAdmin:                                          │
+  │                                                         │
+  │ 1. Click "Import" tab at the top                        │
+  │ 2. Click "Choose File"                                  │
+  │ 3. Select database.sql from your computer              │
+  │ 4. Click "Go" button                                    │
+  │                                                         │
+  │ Wait 10-30 seconds for import to complete...           │
+  └─────────────────────────────────────────────────────────┘
+
+STEP 4: Verify
+  - Click "Users" table in left sidebar
+  - You should see a default admin account
+  - Click on "Structure" tab to see all tables
+
+STEP 5: Update admin password
+  - You need to set the admin password
+  - In phpMyAdmin, find the admin user row
+  - Click the pencil icon to edit
+  - You can update the password there
+
+STEP 6: Update index.php
+  - Open index.php on InfinityFree File Manager
+  - Edit it and verify the password matches what you set
+  - Save the file
+
+
+════════════════════════════════════════════════════════════════════════════════
+OPTION 2: Auto-setup via Browser (QUICK)
+════════════════════════════════════════════════════════════════════════════════
+
+If database connection works, use this:
+
+1. Upload setup_infinityfree.php to InfinityFree
+2. Visit: https://hotel-system.kesug.com/setup_infinityfree.php?token=setup_c4ca4238a0b923820dcc509a6f75849b
+3. Wait for "Database Setup Complete!" message
+4. Delete setup_infinityfree.php from File Manager (IMPORTANT - for security)
+
+
+════════════════════════════════════════════════════════════════════════════════
+OPTION 3: Create Tables Manually in phpMyAdmin
+════════════════════════════════════════════════════════════════════════════════
+
+If file import doesn't work:
+
+1. Open phpMyAdmin (click Admin button)
+2. Click "SQL" tab at top
+3. Copy-paste this code:
+
+─────────────────────────────────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL UNIQUE,
+  `password` varchar(255) NOT NULL,
+  `contact` varchar(20),
+  `room_number` varchar(50),
+  `role` enum('user','staff','admin') DEFAULT 'user',
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `services` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text,
+  `price` decimal(10,2),
+  `duration_minutes` int DEFAULT 60,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `staff` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `specialization` varchar(255),
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `appointments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `service_id` int NOT NULL,
+  `staff_id` int,
+  `appointment_datetime` datetime NOT NULL,
+  `status` enum('pending','confirmed','completed','canceled') DEFAULT 'pending',
+  `notes` text,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
+  FOREIGN KEY (`service_id`) REFERENCES `services`(`id`),
+  FOREIGN KEY (`staff_id`) REFERENCES `staff`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `services` (`name`, `description`, `price`, `duration_minutes`) VALUES
+('Spa Treatment', 'Relaxing spa massage', 99.99, 60),
+('Gym Session', 'Personal training', 50.00, 60),
+('Restaurant Reservation', 'Fine dining', 150.00, 120),
+('Massage Therapy', 'Therapeutic massage', 80.00, 50);
+
+─────────────────────────────────────────────────────────────────────────────
+
+4. Click "Go" button
+5. All tables will be created!
+
+
+════════════════════════════════════════════════════════════════════════════════
+IMPORTANT: Fix the Database Password
+════════════════════════════════════════════════════════════════════════════════
+
+The error you saw means the password in index.php is WRONG.
+
+YOU MUST:
+1. Find your ACTUAL database password in InfinityFree
+2. Update index.php with the correct password:
+
+   Open index.php on InfinityFree File Manager
+   Edit line 8:
+   
+   $pass = 'YOUR_ACTUAL_PASSWORD_HERE';
+   
+   Replace 'YOUR_ACTUAL_PASSWORD_HERE' with your real password from InfinityFree
+
+3. Save the file
+4. Try visiting the website again
+
+
+════════════════════════════════════════════════════════════════════════════════
+IF YOU STILL GET ERRORS
+════════════════════════════════════════════════════════════════════════════════
+
+The issue is likely:
+
+1. ❌ Wrong password - Check InfinityFree MySQL Databases page
+2. ❌ Wrong host - Should be: sql113.infinityfree.com (NOT localhost)
+3. ❌ Wrong username - Should be: ifo_40589293 (with letter O, not zero 0)
+4. ❌ Wrong database name - Should be: ifo_40589293_hotel_appointments
+5. ❌ Files not uploaded - Check File Manager /htdocs/ folder
+
+════════════════════════════════════════════════════════════════════════════════
