@@ -3,19 +3,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-color: #0a0e27;
-  --bg-alt: #1a1f3a;
-  --bg-surface: #1a1f3a;
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-light: #93c5fd;
+  --bg-color: #181824;
+  --bg-alt: #1f1f2e;
+  --bg-surface: #1f1f2e;
+  --primary-color: #38CE3C;
+  --primary-hover: #2eb833;
+  --primary-light: #70dd70;
   --text-color: #f8fafc;
   --text-muted: #cbd5e1;
   --text-secondary: #94a3b8;
-  --error-color: #dc2626;
-  --success-color: #16a34a;
-  --warning-color: #d97706;
-  --info-color: #0891b2;
+  --error-color: #FF4D6B;
+  --success-color: #38CE3C;
+  --warning-color: #FFDE73;
+  --info-color: #8E32E9;
   --border-color: #2d3748;
   --transition-speed: 0.3s;
   --radius: 8px;
@@ -54,7 +54,7 @@ body {
 
 /* Header */
 header {
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(10, 14, 39, 0));
+  background: linear-gradient(135deg, rgba(56, 206, 60, 0.12), rgba(24, 24, 36, 0));
   padding: 1rem 1.5rem;
   display: flex;
   justify-content: space-between;
@@ -79,7 +79,7 @@ header {
   justify-content: center;
   border-radius: 10px;
   background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 12px rgba(56, 206, 60, 0.3);
 }
 
 .brand .logo-mark svg {
@@ -114,8 +114,8 @@ header {
 }
 
 .user-pill {
-  background: rgba(37, 99, 235, 0.12);
-  border: 1px solid rgba(37, 99, 235, 0.35);
+  background: rgba(56, 206, 60, 0.12);
+  border: 1px solid rgba(56, 206, 60, 0.35);
   padding: 0.5rem 1rem;
   border-radius: 999px;
   color: var(--text-muted);
@@ -287,7 +287,7 @@ td {
 }
 
 th {
-  background-color: rgba(37, 99, 235, 0.08);
+  background-color: rgba(56, 206, 60, 0.08);
   color: var(--primary-light);
   font-weight: 700;
   font-size: 0.9rem;
@@ -303,7 +303,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-  background-color: rgba(37, 99, 235, 0.08);
+  background-color: rgba(56, 206, 60, 0.08);
 }
 
 td.center {
@@ -414,9 +414,9 @@ input[type="number"]:focus,
 select:focus,
 textarea:focus {
   border-color: var(--primary-color);
-  background-color: rgba(37, 99, 235, 0.08);
+  background-color: rgba(56, 206, 60, 0.08);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 0 0 3px rgba(56, 206, 60, 0.15);
 }
 
 form.inline select,
@@ -461,7 +461,7 @@ button:focus,
 form.inline button:focus,
 form button:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 0 0 3px rgba(56, 206, 60, 0.25);
 }
 
 button:disabled,
