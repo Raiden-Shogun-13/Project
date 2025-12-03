@@ -402,6 +402,24 @@ textarea {
   transition: all var(--transition-speed);
 }
 
+/* Fix dropdown option visibility */
+select option {
+  background-color: #1f1f2e;
+  color: #f8fafc;
+  padding: 0.5rem;
+}
+
+select option:hover {
+  background-color: #38CE3C;
+  color: #181824;
+}
+
+select option:checked {
+  background: linear-gradient(#38CE3C, #38CE3C);
+  background-color: #38CE3C;
+  color: #181824;
+}
+
 input[type="text"]::placeholder,
 input[type="number"]::placeholder,
 select::placeholder,
