@@ -146,7 +146,7 @@ try {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hotel Admin Dashboard</title>
-  <link rel="stylesheet" href="admin-style.css">
+  <link rel="stylesheet" href="admin-style.css?v=2.0">
 </head>
 <body>
 <header>
