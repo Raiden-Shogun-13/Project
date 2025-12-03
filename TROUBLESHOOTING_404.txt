@@ -1,0 +1,121 @@
+TROUBLESHOOTING 404 ERROR ON INFINITYFREE
+═══════════════════════════════════════════════════════════════════════════════
+
+POSSIBLE CAUSES:
+
+1. FILES NOT UPLOADED YET
+   ☑ Did you upload all files from c:\xampp\htdocs\hotel_system-1\ to InfinityFree?
+   ☑ Check File Manager and make sure you see:
+      - index.php
+      - login.php
+      - dashboard.php
+      - db.php
+      - functions.php
+      - mail.php
+      - vendor/ folder
+      - images/ folder
+
+2. WRONG FOLDER
+   ☑ Make sure files are in: /htdocs/ (NOT /public_html/ or root)
+   ☑ NOT in a subfolder like /htdocs/hotel_system/ 
+   ☑ Files should be directly in /htdocs/
+
+3. WRONG URL
+   ☑ Your domain should be: https://your-domain.infinityfree.app
+   ☑ Look at your InfinityFree dashboard to find your exact domain name
+   ☑ Check the first tab "ifo_40589293 (Website (c" in your browser
+
+4. SETUP_DB.PHP NOT RUN YET
+   ☑ Even if you see 404, try running: https://your-domain.infinityfree.app/setup_db.php
+   ☑ You should see "Database tables created successfully!"
+   ☑ If you see 404 here too → files are not uploaded
+
+═══════════════════════════════════════════════════════════════════════════════
+
+WHAT TO CHECK IN INFINITYFREE FILE MANAGER:
+
+STEP 1: Open File Manager
+  - Go to your website settings (gear icon)
+  - Click "File Manager"
+
+STEP 2: Make sure you're in /htdocs/
+  ☑ You should see these files DIRECTLY (not in a subfolder):
+    - admin-style.css
+    - admin_dashboard.php
+    - dashboard.php
+    - db.php
+    - functions.php
+    - index.php ← MOST IMPORTANT
+    - login.php
+    - mail.php
+    - register.php
+    - setup_db.php
+    - verify.php
+    - style.css
+    
+  ☑ You should see these FOLDERS:
+    - vendor/
+    - images/
+
+STEP 3: If files are missing
+  ☑ Click Upload button
+  ☑ Select ALL files from: c:\xampp\htdocs\hotel_system-1\
+  ☑ Make sure you select the vendor/ and images/ folders too
+  ☑ Wait for upload to complete (may take 1-2 minutes)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+HOW TO VERIFY UPLOAD WAS SUCCESSFUL:
+
+1. After uploading, wait 30-60 seconds
+2. Try visiting: https://your-domain.infinityfree.app/setup_db.php
+3. You should see either:
+   - "Database tables created successfully!" 
+   OR
+   - "Tables already exist"
+   OR
+   - A login form
+
+If you still see 404 → Files not uploaded correctly
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STEP BY STEP UPLOAD PROCESS:
+
+1. In File Manager, you should see these folders at the top:
+   📁 htdocs          ← DOUBLE CLICK THIS
+   📁 public_html
+   📁 cgi-bin
+
+2. Once inside htdocs, click Upload button
+
+3. A dialog appears: "Choose Files to Upload"
+   - Click Browse
+   - Navigate to: c:\xampp\htdocs\hotel_system-1\
+   - Press Ctrl+A to select ALL files
+   - Click Open
+   - Wait for upload...
+
+4. After upload, you should see all your files in the list
+
+5. Try visiting: https://your-domain.infinityfree.app/
+
+═══════════════════════════════════════════════════════════════════════════════
+
+YOUR EXACT DOMAIN IS:
+
+Check the first browser tab "ifo_40589293 (Website (c"
+Your domain should look like: ifo_40589293.infinityfree.app
+
+OR go to InfinityFree and look for your domain in "Your Websites" section
+
+═══════════════════════════════════════════════════════════════════════════════
+
+IF STILL NOT WORKING:
+
+Try this test URL first:
+https://your-domain.infinityfree.app/index.php
+
+(In case it needs the .php extension)
+
+═══════════════════════════════════════════════════════════════════════════════
