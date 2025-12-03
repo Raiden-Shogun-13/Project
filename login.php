@@ -1,6 +1,10 @@
 <?php
-// Database connection and functions already loaded by index.php
-// This file is included by index.php
+// Load dependencies if not already loaded
+if (!function_exists('sanitize')) {
+    require 'db.php';
+    require 'functions.php';
+    require 'mail.php';
+}
 
 $errors = [];
 

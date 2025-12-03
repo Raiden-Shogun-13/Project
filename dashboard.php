@@ -1,6 +1,11 @@
 <?php
-// Database connection and functions already loaded by index.php
-// This file is included by index.php after successful database connection
+// Load dependencies if not already loaded
+if (!function_exists('redirect_if_not_logged_in')) {
+    require 'db.php';
+    require 'functions.php';
+    require 'mail.php';
+}
+
 redirect_if_not_logged_in();
 
 $user_id = $_SESSION['user_id'];
