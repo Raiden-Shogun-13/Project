@@ -163,10 +163,6 @@ try {
   <div class="header-meta">
     <div class="user-pill">Hello, <?= htmlspecialchars($_SESSION['user_name'] ?? 'Admin') ?></div>
     <div class="top-actions">
-      <a href="admin_calendar.php" class="button" aria-label="Open calendar">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 10h5v5H7z" fill="currentColor"/></svg>
-        Calendar
-      </a>
       <a href="logout.php" class="logout-btn" aria-label="Logout">Logout</a>
     </div>
   </div>
@@ -191,10 +187,11 @@ try {
     <button class="tab active" role="tab" aria-selected="true" aria-controls="appointments" id="tab-appointments" data-tab="appointments">Appointments</button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="services" id="tab-services" data-tab="services">Services</button>
   </div>
-  <div class="admin-grid">
-    <section id="appointments" class="tab-content panel" role="tabpanel" aria-labelledby="tab-appointments" style="display:block;">
-      <div class="table-wrapper">
-        <table>
+
+  <!-- Appointments Tab -->
+  <section id="appointments" class="tab-content" role="tabpanel" aria-labelledby="tab-appointments" style="display:block;">
+    <div class="table-wrapper">
+      <table>
         <thead>
           <tr>
             <th>ID</th>
@@ -212,13 +209,13 @@ try {
           <?php else: ?>
             <?php foreach ($appointments as $appt): ?>
               <tr>
-                <td><?= (int)$appt['id'] ?></td>
-                <td><?= htmlspecialchars($appt['user_name']) ?></td>
-                <td><a href="mailto:<?= htmlspecialchars($appt['email']) ?>"><?= htmlspecialchars($appt['email']) ?></a></td>
-                <td><?= htmlspecialchars($appt['service_name']) ?></td>
-                <td><?= htmlspecialchars($appt['appointment_datetime']) ?></td>
-                <td class="status-<?= htmlspecialchars($appt['status']) ?>"><?= ucfirst(htmlspecialchars($appt['status'])) ?></td>
-                <td>
+                <td data-label="ID"><?= (int)$appt['id'] ?></td>
+                <td data-label="Guest"><?= htmlspecialchars($appt['user_name']) ?></td>
+                <td data-label="Email"><a href="mailto:<?= htmlspecialchars($appt['email']) ?>"><?= htmlspecialchars($appt['email']) ?></a></td>
+                <td data-label="Service"><?= htmlspecialchars($appt['service_name']) ?></td>
+                <td data-label="Date &amp; Time"><?= htmlspecialchars($appt['appointment_datetime']) ?></td>
+                <td data-label="Status" class="status-<?= htmlspecialchars($appt['status']) ?>"><?= ucfirst(htmlspecialchars($appt['status'])) ?></td>
+                <td data-label="Actions">
                   <form method="post" class="inline" aria-label="Update appointment <?= (int)$appt['id'] ?>">
                     <input type="hidden" name="appointment_id" value="<?= (int)$appt['id'] ?>" />
                     <select name="status" aria-label="Status for appointment <?= (int)$appt['id'] ?>" required>
@@ -242,76 +239,76 @@ try {
         </tbody>
       </table>
     </div>
-    </section>
+  </section>
 
-    <aside class="panel" style="min-width:260px;">
-      <h3>Quick Actions</h3>
-      <p style="margin:0.4rem 0 1rem;color:var(--color-text-light);">Use these to manage services and navigate.</p>
-      <p><a href="admin_calendar.php" class="button">Open Calendar</a></p>
-      <hr style="margin:1rem 0;border:none;border-top:1px solid #eee;">
-      <h3>Services</h3>
-      <p style="color:var(--color-text-light);">Add or edit services below. Click a service's Edit button to populate the form.</p>
-      <div style="margin-top:1rem;">
-        <button type="button" onclick="document.querySelector('button[data-tab=services]').click();" class="button">Edit Services</button>
-      </div>
-    </aside>
-  </div>
-
+  <!-- Services Tab -->
   <section id="services" class="tab-content" role="tabpanel" aria-labelledby="tab-services" style="display:none;">
-    <h2 id="serviceFormTitle">Add New Service</h2>
-    <form method="post" aria-label="Add or edit service">
-      <input type="hidden" name="service_id" id="service_id" value="" />
+    <div class="admin-grid">
+      <aside class="panel">
+        <h3>Quick Info</h3>
+        <p>Add or edit services using the form below. Click a service's Edit button to populate the form.</p>
+        <hr>
+        <h3>Quick Actions</h3>
+        <p><a href="admin_calendar.php" style="text-decoration: none;">📅 Open Calendar</a></p>
+      </aside>
+      
       <div>
-        <label for="name">Name*</label>
-        <input type="text" name="name" id="name" required autocomplete="off" />
-      </div>
-      <div>
-        <label for="description">Description</label>
-        <textarea name="description" id="description" rows="3" placeholder="Optional description"></textarea>
-      </div>
-      <div>
-        <label for="service_price">Price</label>
-        <input type="number" step="0.01" min="0" name="price" id="service_price" required>
-      </div>
-      <div style="margin-top:0.75rem;">
-        <button type="submit" name="save_service" aria-label="Save service">Save Service</button>
-        <button type="button" id="cancelEdit" onclick="resetServiceForm()" style="display:none; margin-left:0.5rem;">Cancel</button>
-      </div>
-    </form>
+        <h2 id="serviceFormTitle">Add New Service</h2>
+        <form method="post" aria-label="Add or edit service">
+          <input type="hidden" name="service_id" id="service_id" value="" />
+          <div>
+            <label for="name">Service Name *</label>
+            <input type="text" name="name" id="name" required autocomplete="off" placeholder="Enter service name" />
+          </div>
+          <div>
+            <label for="description">Description</label>
+            <textarea name="description" id="description" rows="3" placeholder="Optional description of the service"></textarea>
+          </div>
+          <div>
+            <label for="service_price">Price (PHP) *</label>
+            <input type="number" step="0.01" min="0" name="price" id="service_price" required placeholder="0.00">
+          </div>
+          <div style="display:flex;gap:0.75rem;margin-top:1rem;">
+            <button type="submit" name="save_service" aria-label="Save service">Save Service</button>
+            <button type="button" id="cancelEdit" onclick="resetServiceForm()" style="display:none;">Cancel</button>
+          </div>
+        </form>
 
-    <div class="table-wrapper" style="margin-top:1.5rem;">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price (PHP)</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if (count($services) === 0): ?>
-            <tr><td colspan="5" class="center">No services found.</td></tr>
-          <?php else: ?>
-            <?php foreach ($services as $service): ?>
+        <div class="table-wrapper" style="margin-top:2rem;">
+          <table>
+            <thead>
               <tr>
-                <td><?= (int)$service['id'] ?></td>
-                <td><?= htmlspecialchars($service['name']) ?></td>
-                <td><?= nl2br(htmlspecialchars($service['description'])) ?></td>
-                <td><?= number_format($service['price'], 2) ?></td>
-                <td>
-                  <button type="button" onclick="editService(<?= (int)$service['id'] ?>)" aria-label="Edit service <?= htmlspecialchars($service['name']) ?>">Edit</button>
-                  <form method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this service?');" aria-label="Delete service <?= htmlspecialchars($service['name']) ?>">
-                    <input type="hidden" name="service_id" value="<?= (int)$service['id'] ?>" />
-                    <button type="submit" name="delete_service" aria-label="Delete service <?= htmlspecialchars($service['name']) ?>">Delete</button>
-                  </form>
-                </td>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price (PHP)</th>
+                <th>Actions</th>
               </tr>
-            <?php endforeach; ?>
-          <?php endif; ?>
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              <?php if (count($services) === 0): ?>
+                <tr><td colspan="5" class="center">No services found.</td></tr>
+              <?php else: ?>
+                <?php foreach ($services as $service): ?>
+                  <tr>
+                    <td data-label="ID"><?= (int)$service['id'] ?></td>
+                    <td data-label="Name"><?= htmlspecialchars($service['name']) ?></td>
+                    <td data-label="Description"><?= nl2br(htmlspecialchars($service['description'])) ?></td>
+                    <td data-label="Price">₱<?= number_format($service['price'], 2) ?></td>
+                    <td data-label="Actions">
+                      <button type="button" onclick="editService(<?= (int)$service['id'] ?>)" aria-label="Edit service <?= htmlspecialchars($service['name']) ?>">Edit</button>
+                      <form method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this service?');" aria-label="Delete service <?= htmlspecialchars($service['name']) ?>">
+                        <input type="hidden" name="service_id" value="<?= (int)$service['id'] ?>" />
+                        <button type="submit" name="delete_service" aria-label="Delete service <?= htmlspecialchars($service['name']) ?>">Delete</button>
+                      </form>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
 </main>
