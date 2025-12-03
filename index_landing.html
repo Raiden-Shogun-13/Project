@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Appointment System - Professional Booking Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            font-size: 1.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Sections */
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #2563eb;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-item {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .service-item h3 {
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-price {
+            font-size: 1.5rem;
+            color: #059669;
+            font-weight: bold;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            color: #2563eb;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .features-list li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #666;
+        }
+
+        .features-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #059669;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .tech-item h4 {
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            nav h1 {
+                font-size: 1.2rem;
+            }
+
+            nav a {
+                margin-left: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <h1>🏨 Hotel System</h1>
+            <div>
+                <a href="#features">Features</a>
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <a href="https://hotel-system.kesug.com/" target="_blank">Live Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Professional Hotel Appointment System</h2>
+            <p>Book spa treatments, gym sessions, restaurant reservations, and more with our easy-to-use platform</p>
+            <div class="cta-buttons">
+                <a href="https://hotel-system.kesug.com/" class="btn btn-primary">Visit Live Site</a>
+                <a href="https://github.com/Raiden-Shogun-13/Project" class="btn btn-secondary">View Code on GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <h2>✨ Key Features</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>User Management</h3>
+                    <p>Easy registration and login system. Manage your profile, view booking history, and track appointment status.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Smart Booking</h3>
+                    <p>Intuitive appointment scheduling with real-time availability. Pick your preferred date, time, and service.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Email Notifications</h3>
+                    <p>Get confirmation emails and appointment reminders. Never miss your bookings!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍💼</div>
+                    <h3>Admin Dashboard</h3>
+                    <p>Powerful management interface for staff to view, confirm, and manage all appointments.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-time Updates</h3>
+                    <p>Instant status updates on your bookings. Calendar view for easy navigation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Secure & Reliable</h3>
+                    <p>Password hashing, secure database, and HTTPS encryption for your peace of mind.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <div class="container">
+            <h2>🛎️ Available Services</h2>
+            <div class="services-grid">
+                <div class="service-item">
+                    <h3>💆 Spa Treatment</h3>
+                    <p>Relaxing full-body spa massage to rejuvenate your mind and body</p>
+                    <div class="service-price">$99.99</div>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">60 minutes</p>
+                </div>
+                <div class="service-item">
+                    <h3>🏋️ Gym Session</h3>
+                    <p>Personal training and full gym access with professional guidance</p>
+                    <div class="service-price">$50.00</div>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">60 minutes</p>
+                </div>
+                <div class="service-item">
+                    <h3>🍽️ Restaurant</h3>
+                    <p>Fine dining experience with reservation at our premium restaurant</p>
+                    <div class="service-price">$150.00</div>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">120 minutes</p>
+                </div>
+                <div class="service-item">
+                    <h3>💆‍♂️ Massage Therapy</h3>
+                    <p>Professional therapeutic massage to relieve stress and tension</p>
+                    <div class="service-price">$80.00</div>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">50 minutes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about" style="background: #f9fafb;">
+        <div class="container">
+            <h2>About This Project</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Professional Booking Platform</h3>
+                    <p>The Hotel Appointment System is a full-featured booking platform designed to streamline hotel service management.</p>
+                    <p>Users can easily book appointments for various hotel services, while administrators can manage and confirm bookings in real-time.</p>
+                    <ul class="features-list">
+                        <li>Full-featured appointment booking system</li>
+                        <li>Admin management dashboard</li>
+                        <li>Email notification system</li>
+                        <li>Role-based access control</li>
+                        <li>Responsive mobile design</li>
+                        <li>Real-time updates</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #2563eb; margin-bottom: 1.5rem;">Tech Stack</h3>
+                    <div class="tech-stack">
+                        <div class="tech-item">
+                            <h4>PHP</h4>
+                            <p>Backend logic</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>MySQL</h4>
+                            <p>Database</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>HTML5</h4>
+                            <p>Structure</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>CSS3</h4>
+                            <p>Styling</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>JavaScript</h4>
+                            <p>Interactivity</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>PHPMailer</h4>
+                            <p>Email System</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; text-align: center;">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 1.5rem;">Ready to Book Your Appointment?</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">Visit our live platform and start booking services today</p>
+            <a href="https://hotel-system.kesug.com/" class="btn btn-primary">Book Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3>Hotel Appointment System</h3>
+            <p>A professional booking platform built with PHP, MySQL, and modern web technologies</p>
+            <div class="footer-links">
+                <a href="https://github.com/Raiden-Shogun-13/Project" target="_blank">GitHub Repository</a>
+                <a href="https://hotel-system.kesug.com/" target="_blank">Live Site</a>
+                <a href="https://github.com/Raiden-Shogun-13" target="_blank">Developer Profile</a>
+            </div>
+            <p style="border-top: 1px solid #444; padding-top: 1rem; margin-top: 1rem;">
+                © 2024 Hotel Appointment System. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
