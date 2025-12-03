@@ -1,0 +1,101 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    INFINITYFREE DEPLOYMENT CHECKLIST                       ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+WHAT YOU NEED TO DO:
+===================
+
+☐ STEP 1: UPLOAD FILES
+   → Log into InfinityFree Control Panel
+   → Click "File Manager"
+   → Go to htdocs or public_html folder
+   → Upload ALL files from c:\xampp\htdocs\hotel_system-1\
+
+☐ STEP 2: CREATE DATABASE
+   → Go to "MySQL Databases"
+   → Click "Create"
+   → Database name: hotel_appointments
+   → Username: hoteluser
+   → Password: Hotel@12345Secure
+   → Click "Create"
+
+☐ STEP 3: SAVE YOUR CREDENTIALS
+   You will see:
+   → Host: localhost
+   → Database: [something]_hotel_appointments
+   → Username: [something]_hoteluser
+   → Password: Hotel@12345Secure
+
+☐ STEP 4: UPDATE db.php
+   → Open File Manager
+   → Find: db.php
+   → Click Edit
+   → Change these 4 lines:
+   
+      $host = 'localhost';
+      $db = '[your exact database name]';
+      $user = '[your exact username]';
+      $pass = 'Hotel@12345Secure';
+   
+   → Save
+
+☐ STEP 5: INITIALIZE DATABASE
+   → Open browser
+   → Visit: https://your-domain.infinityfree.app/setup_db.php
+   → Wait for success message
+
+☐ STEP 6: DELETE setup_db.php
+   → Go to File Manager
+   → Find: setup_db.php
+   → Right-click → Delete
+
+☐ STEP 7: CREATE ADMIN ACCOUNT
+   → Visit: https://your-domain.infinityfree.app
+   → Click Register
+   → Create account
+   → Go to phpMyAdmin in MySQL Databases
+   → Edit your user: set role = 'admin'
+   → Save
+
+☐ STEP 8: TEST YOUR SITE
+   → Visit: https://your-domain.infinityfree.app
+   → Login with your admin account
+   → Visit: /admin_dashboard.php
+   → Everything should work!
+
+☐ STEP 9: TEST ON YOUR PHONE
+   → Copy URL: https://your-domain.infinityfree.app
+   → Open on phone browser
+   → Test all features
+
+☐ STEP 10: SHARE WITH OTHERS
+   → Send URL to friends via WhatsApp, Email, etc.
+   → They can now book appointments from anywhere!
+
+═══════════════════════════════════════════════════════════════════════════════
+
+IMPORTANT FILES TO REMEMBER:
+
+📁 For detailed info, read these files:
+   • README.md - Full documentation
+   • DEPLOYMENT_QUICK_GUIDE.txt - Quick reference
+   • DATABASE_SETUP_GUIDE.txt - Database setup details
+   • DEPLOYMENT_GUIDE.html - Visual step-by-step guide
+
+═══════════════════════════════════════════════════════════════════════════════
+
+NEED HELP?
+
+❌ Database connection failed
+   → Make sure db.php credentials match exactly
+   → Check spelling and capital letters
+
+❌ "404 File not found"
+   → Make sure files are in htdocs or public_html
+   → Wait 5 minutes for server to recognize files
+
+❌ Can't access admin panel
+   → Make sure user role is set to 'admin'
+   → Refresh page or clear browser cache
+
+═══════════════════════════════════════════════════════════════════════════════

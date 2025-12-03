@@ -1,0 +1,90 @@
+================================================================================
+STEP 1: CREATE MYSQL DATABASE ON INFINITYFREE
+================================================================================
+
+Follow these exact steps:
+
+1. Go to "MySQL Databases" section
+2. Click "Create"
+3. Fill in the form with these values:
+
+   Database name: hotel_appointments
+   Username: hoteluser
+   Password: Hotel@12345Secure
+
+4. Click "Create"
+5. SAVE THESE CREDENTIALS - You will need them in the next step!
+
+================================================================================
+STEP 2: YOUR DATABASE CREDENTIALS (SAVE THIS)
+================================================================================
+
+Copy these values:
+
+Host: localhost
+Database Name: [your_account]_hotel_appointments
+Username: [your_account]_hoteluser
+Password: Hotel@12345Secure
+
+(Note: InfinityFree will add your account name prefix to the database and username)
+
+================================================================================
+STEP 3: EDIT db.php WITH THESE CREDENTIALS
+================================================================================
+
+After getting the exact database name from InfinityFree:
+
+1. Open File Manager
+2. Find and edit: db.php
+3. Replace the first 6 lines with:
+
+<?php
+// db.php
+$host = 'localhost';
+$db = '[exact-database-name-from-infinityfree]';
+$user = '[exact-username-from-infinityfree]';
+$pass = 'Hotel@12345Secure';
+$charset = 'utf8mb4';
+
+4. SAVE the file
+
+================================================================================
+EXAMPLE: What your db.php might look like
+================================================================================
+
+<?php
+// db.php
+$host = 'localhost';
+$db = 'myaccount_hotel_appointments';
+$user = 'myaccount_hoteluser';
+$pass = 'Hotel@12345Secure';
+$charset = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (PDOException $e) {
+    exit('DB Connection failed: ' . $e->getMessage());
+}
+?>
+
+================================================================================
+QUICK REFERENCE
+================================================================================
+
+In InfinityFree Control Panel:
+✓ Click "MySQL Databases"
+✓ Click "Create"
+✓ Database name: hotel_appointments
+✓ Username: hoteluser
+✓ Password: Hotel@12345Secure
+✓ Click "Create"
+
+Then update db.php with the exact values shown in your control panel!
+
+================================================================================
