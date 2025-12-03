@@ -1,8 +1,8 @@
 <?php
 // db.php
-$host = 'sql113.infinityfree.com';
-$db = 'ifo_40589293_hotel_appointments';
-$user = 'ifo_40589293';  // change if necessary
+$host = 'localhost';
+$db = 'hotel_appointments';
+$user = 'root';  // change if necessary
 $pass = '';      // change if necessary
 $charset = 'utf8mb4';
 
