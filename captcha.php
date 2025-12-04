@@ -1,7 +1,7 @@
 <?php
 /**
  * CAPTCHA HTML5 Canvas Generator
- * Professional hotel-themed CAPTCHA with green (#38CE3C) and dark navy (#181824)
+ * Premium gradient design with purple and blue theme
  */
 
 session_start();
@@ -47,20 +47,23 @@ header('Content-Type: text/html; charset=utf-8');
         }
         
         canvas {
-            border: 3px solid #38CE3C;
-            border-radius: 10px;
+            border: 3px solid #7C3AED;
+            border-radius: 12px;
             display: block;
-            background: #181824;
-            box-shadow: 0 8px 25px rgba(56, 206, 60, 0.15), 
-                        inset 0 1px 2px rgba(255, 255, 255, 0.08);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            box-shadow: 0 12px 40px rgba(124, 58, 237, 0.25), 
+                        0 0 30px rgba(99, 102, 241, 0.15),
+                        inset 0 1px 2px rgba(255, 255, 255, 0.1);
             cursor: pointer;
             transition: all 0.3s ease;
         }
         
         canvas:hover {
-            box-shadow: 0 12px 35px rgba(56, 206, 60, 0.25), 
-                        inset 0 1px 2px rgba(255, 255, 255, 0.08);
-            transform: translateY(-2px);
+            box-shadow: 0 16px 50px rgba(124, 58, 237, 0.35), 
+                        0 0 40px rgba(99, 102, 241, 0.25),
+                        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            border-color: #A78BFA;
         }
         
         canvas:active {
@@ -87,34 +90,44 @@ header('Content-Type: text/html; charset=utf-8');
         const ctx = canvas.getContext('2d');
         const captchaText = '<?= htmlspecialchars($captcha_text, ENT_QUOTES) ?>';
         
-        // Hotel theme colors
+        // Premium gradient colors (Purple to Blue theme)
         const colors = {
-            bgDark: '#181824',
-            primary: '#38CE3C',
-            primaryLight: '#64DC64',
-            primaryDark: '#2B9530',
-            text: '#FFFFFF',
-            accent: '#8E32E9',
-            border: '#287C28',
-            line: 'rgba(56, 206, 60, 0.3)',
-            highlight: 'rgba(56, 206, 60, 0.2)'
+            primary: '#7C3AED',           // Vibrant Purple
+            primaryLight: '#A78BFA',      // Light Purple
+            primaryDark: '#6D28D9',       // Dark Purple
+            secondary: '#3B82F6',         // Bright Blue
+            secondaryLight: '#60A5FA',    // Light Blue
+            accent: '#EC4899',            // Pink accent
+            text: '#FFFFFF',              // White
+            textAlt: '#E9D5FF',           // Light purple text
+            glow1: 'rgba(124, 58, 237, 0.3)',    // Purple glow
+            glow2: 'rgba(59, 130, 246, 0.2)',    // Blue glow
+            grid: 'rgba(167, 139, 250, 0.1)',    // Grid pattern
+            dark: '#0f172a'               // Very dark blue
         };
         
         function drawCaptcha() {
-            // Clear canvas
-            ctx.fillStyle = colors.bgDark;
+            // Clear and create gradient background
+            const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            bgGradient.addColorStop(0, '#1a1a2e');
+            bgGradient.addColorStop(0.5, '#16213e');
+            bgGradient.addColorStop(1, '#0f3460');
+            ctx.fillStyle = bgGradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Add sophisticated gradient background
-            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#181824');
-            gradient.addColorStop(0.5, '#1f1f2a');
-            gradient.addColorStop(1, '#181824');
-            ctx.fillStyle = gradient;
+            // Add animated radial gradient overlay
+            const radialGradient = ctx.createRadialGradient(
+                canvas.width / 2, canvas.height / 2, 0,
+                canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2
+            );
+            radialGradient.addColorStop(0, 'rgba(124, 58, 237, 0.1)');
+            radialGradient.addColorStop(0.7, 'rgba(59, 130, 246, 0.05)');
+            radialGradient.addColorStop(1, 'rgba(15, 23, 42, 0)');
+            ctx.fillStyle = radialGradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Add subtle grid pattern
-            ctx.strokeStyle = 'rgba(56, 206, 60, 0.08)';
+            // Add premium grid pattern
+            ctx.strokeStyle = colors.grid;
             ctx.lineWidth = 0.5;
             for (let i = 0; i < canvas.height; i += 15) {
                 ctx.beginPath();
@@ -129,15 +142,22 @@ header('Content-Type: text/html; charset=utf-8');
                 ctx.stroke();
             }
             
-            // Add decorative circles
+            // Add decorative circles with gradient
             for (let i = 0; i < 3; i++) {
-                ctx.fillStyle = colors.line;
-                ctx.globalAlpha = 0.4;
+                const circleGrad = ctx.createRadialGradient(
+                    Math.random() * canvas.width, Math.random() * canvas.height, 0,
+                    Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 40 + 20
+                );
+                circleGrad.addColorStop(0, colors.glow1);
+                circleGrad.addColorStop(1, colors.glow2);
+                
+                ctx.fillStyle = circleGrad;
+                ctx.globalAlpha = 0.3;
                 ctx.beginPath();
                 ctx.arc(
                     Math.random() * canvas.width,
                     Math.random() * canvas.height,
-                    Math.random() * 30 + 10,
+                    Math.random() * 35 + 15,
                     0,
                     Math.PI * 2
                 );
@@ -145,10 +165,10 @@ header('Content-Type: text/html; charset=utf-8');
                 ctx.globalAlpha = 1.0;
             }
             
-            // Add security dots pattern
-            for (let i = 0; i < 80; i++) {
-                ctx.fillStyle = Math.random() > 0.5 ? colors.primaryDark : colors.primaryLight;
-                ctx.globalAlpha = 0.5;
+            // Add security dot pattern
+            for (let i = 0; i < 100; i++) {
+                ctx.fillStyle = Math.random() > 0.5 ? colors.primary : colors.secondary;
+                ctx.globalAlpha = 0.4;
                 ctx.beginPath();
                 ctx.arc(
                     Math.random() * canvas.width,
@@ -161,9 +181,9 @@ header('Content-Type: text/html; charset=utf-8');
                 ctx.globalAlpha = 1.0;
             }
             
-            // Add distortion lines (green waves)
+            // Add premium wave lines
             for (let i = 0; i < 2; i++) {
-                ctx.strokeStyle = colors.highlight;
+                ctx.strokeStyle = i === 0 ? colors.glow1 : colors.glow2;
                 ctx.lineWidth = 2;
                 ctx.beginPath();
                 const startX = Math.random() * canvas.width / 2;
@@ -175,74 +195,89 @@ header('Content-Type: text/html; charset=utf-8');
                 ctx.stroke();
             }
             
-            // Draw decorative corner elements
-            ctx.fillStyle = colors.primary;
+            // Draw premium corner accents
+            // Top-left corner - purple gradient
+            const cornerGrad1 = ctx.createLinearGradient(0, 0, 60, 60);
+            cornerGrad1.addColorStop(0, colors.primary);
+            cornerGrad1.addColorStop(1, 'rgba(124, 58, 237, 0)');
+            ctx.fillStyle = cornerGrad1;
+            ctx.fillRect(0, 0, 60, 3);
+            ctx.fillRect(0, 0, 3, 60);
             
-            // Top-left corner accent
-            ctx.fillRect(0, 0, 50, 3);
-            ctx.fillRect(0, 0, 3, 50);
-            
-            // Bottom-right corner accent
-            ctx.fillRect(canvas.width - 50, canvas.height - 3, 50, 3);
-            ctx.fillRect(canvas.width - 3, canvas.height - 50, 3, 50);
+            // Bottom-right corner - blue gradient
+            const cornerGrad2 = ctx.createLinearGradient(canvas.width - 60, canvas.height - 60, canvas.width, canvas.height);
+            cornerGrad2.addColorStop(0, 'rgba(59, 130, 246, 0)');
+            cornerGrad2.addColorStop(1, colors.secondary);
+            ctx.fillStyle = cornerGrad2;
+            ctx.fillRect(canvas.width - 60, canvas.height - 3, 60, 3);
+            ctx.fillRect(canvas.width - 3, canvas.height - 60, 3, 60);
             
             // Main CAPTCHA text rendering
             const textX = canvas.width / 2;
             const textY = canvas.height / 2;
             
             // Text styling
-            ctx.font = 'bold 56px Arial, sans-serif';
+            ctx.font = 'bold 58px Arial, sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.letterSpacing = '8px';
             
-            // Multi-layer text effect for security and visibility
-            // Layer 1: Deep shadow
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+            // Layer 1: Deep shadow (black)
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
             ctx.fillText(captchaText, textX + 3, textY + 3);
             
-            // Layer 2: Dark green shadow
+            // Layer 2: Purple shadow
             ctx.fillStyle = colors.primaryDark;
             ctx.fillText(captchaText, textX + 1, textY + 1);
             
-            // Layer 3: Green outline/glow
+            // Layer 3: Purple outline/glow
             ctx.strokeStyle = colors.primaryLight;
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 2.5;
             ctx.strokeText(captchaText, textX, textY);
             
-            // Layer 4: Main white text
+            // Layer 4: Blue outline
+            ctx.strokeStyle = colors.secondaryLight;
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = 0.6;
+            ctx.strokeText(captchaText, textX, textY);
+            ctx.globalAlpha = 1.0;
+            
+            // Layer 5: Main white text
             ctx.fillStyle = colors.text;
             ctx.fillText(captchaText, textX, textY);
             
-            // Layer 5: Accent outline (purple shimmer)
+            // Layer 6: Pink shimmer accent
             ctx.strokeStyle = colors.accent;
             ctx.lineWidth = 0.5;
-            ctx.globalAlpha = 0.3;
+            ctx.globalAlpha = 0.2;
             ctx.strokeText(captchaText, textX, textY);
             ctx.globalAlpha = 1.0;
             
-            // Add bottom label
-            ctx.font = 'bold 9px Arial, sans-serif';
+            // Add premium label
+            ctx.font = 'bold 10px Arial, sans-serif';
             ctx.fillStyle = colors.primaryLight;
-            ctx.globalAlpha = 0.6;
+            ctx.globalAlpha = 0.7;
             ctx.textAlign = 'right';
-            ctx.fillText('SECURITY VERIFICATION', canvas.width - 10, canvas.height - 8);
+            ctx.fillText('PREMIUM SECURITY', canvas.width - 10, canvas.height - 8);
             ctx.globalAlpha = 1.0;
             
-            // Professional double border
-            // Outer border (primary green)
+            // Professional double border with gradient
+            // Outer border (primary purple)
             ctx.strokeStyle = colors.primary;
             ctx.lineWidth = 3;
             ctx.strokeRect(0, 0, canvas.width, canvas.height);
             
-            // Inner accent border (dark green)
-            ctx.strokeStyle = colors.border;
+            // Inner accent border (dark purple)
+            ctx.strokeStyle = colors.primaryDark;
             ctx.lineWidth = 1;
             ctx.strokeRect(3, 3, canvas.width - 6, canvas.height - 6);
             
-            // Top accent line
-            ctx.strokeStyle = colors.primaryLight;
-            ctx.lineWidth = 1;
+            // Top accent line (gradient)
+            const topGradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+            topGradient.addColorStop(0, colors.primaryLight);
+            topGradient.addColorStop(0.5, colors.secondaryLight);
+            topGradient.addColorStop(1, colors.primaryLight);
+            ctx.strokeStyle = topGradient;
+            ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(0, 0);
             ctx.lineTo(canvas.width, 0);
@@ -252,10 +287,9 @@ header('Content-Type: text/html; charset=utf-8');
         // Initial draw
         drawCaptcha();
         
-        // Click to refresh CAPTCHA
+        // Click to refresh CAPTCHA with animation
         canvas.addEventListener('click', function() {
-            // Add visual feedback
-            canvas.style.opacity = '0.7';
+            canvas.style.opacity = '0.6';
             setTimeout(() => {
                 drawCaptcha();
                 canvas.style.opacity = '1';
@@ -267,6 +301,7 @@ header('Content-Type: text/html; charset=utf-8');
     </script>
 </body>
 </html>
+
 
 
 

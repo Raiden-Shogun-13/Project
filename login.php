@@ -133,30 +133,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </p>
             </div>
 
-            <div style="text-align: center; margin: 25px 0; padding: 20px; background: linear-gradient(135deg, rgba(56, 206, 60, 0.08) 0%, rgba(24, 24, 36, 0.03) 100%); border-radius: 12px; border: 2px solid rgba(56, 206, 60, 0.3); box-shadow: inset 0 1px 3px rgba(56, 206, 60, 0.1);">
-                <iframe src="captcha.php" style="border: none; width: 100%; height: 140px; border-radius: 8px; display: block; margin: 0; padding: 0; max-width: 360px; margin-left: auto; margin-right: auto; background: #181824;"></iframe>
+            <div style="text-align: center; margin: 25px 0; padding: 20px; background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(59, 130, 246, 0.05) 100%); border-radius: 12px; border: 2px solid rgba(124, 58, 237, 0.25); box-shadow: inset 0 1px 3px rgba(124, 58, 237, 0.1);">
+                <iframe src="captcha.php" style="border: none; width: 100%; height: 140px; border-radius: 8px; display: block; margin: 0; padding: 0; max-width: 360px; margin-left: auto; margin-right: auto; background: #0f172a;"></iframe>
             </div>
 
             <div class="form-group">
                 <label for="captcha" style="font-weight: 600; color: #333; display: flex; align-items: center; gap: 6px;">
-                    <span style="width: 20px; height: 20px; background: linear-gradient(135deg, #38CE3C, #64DC64); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold;">✓</span>
+                    <span style="width: 20px; height: 20px; background: linear-gradient(135deg, #7C3AED, #3B82F6); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold;">✓</span>
                     Enter the verification text *
                 </label>
-                <input id="captcha" type="text" name="captcha" placeholder="E.g. ABC123" required autocomplete="off" autofocus maxlength="6" style="text-transform: uppercase; letter-spacing: 4px; font-size: 22px; font-weight: bold; text-align: center; font-family: 'Courier New', 'Monaco', monospace; border: 2px solid #38CE3C; padding: 14px; border-radius: 6px; background: #f9f9f9; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(56, 206, 60, 0.1);">
+                <input id="captcha" type="text" name="captcha" placeholder="E.g. ABC123" required autocomplete="off" autofocus maxlength="6" style="text-transform: uppercase; letter-spacing: 4px; font-size: 22px; font-weight: bold; text-align: center; font-family: 'Courier New', 'Monaco', monospace; border: 2px solid #7C3AED; padding: 14px; border-radius: 6px; background: #f9f9f9; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15);">
             </div>
 
             <style>
                 input[type="text"]:focus {
                     outline: none;
-                    border-color: #64DC64 !important;
-                    box-shadow: 0 0 0 3px rgba(56, 206, 60, 0.15), 0 2px 8px rgba(56, 206, 60, 0.2) !important;
+                    border-color: #A78BFA !important;
+                    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2), 0 2px 8px rgba(124, 58, 237, 0.25) !important;
                     background: #ffffff !important;
                 }
             </style>
 
-            <div style="text-align: center; margin: 18px 0; padding: 12px 16px; background: linear-gradient(135deg, rgba(56, 206, 60, 0.06), rgba(142, 50, 233, 0.03)); border-radius: 8px; border-left: 4px solid #38CE3C; border-right: 1px solid rgba(56, 206, 60, 0.2);">
+            <div style="text-align: center; margin: 18px 0; padding: 12px 16px; background: linear-gradient(135deg, rgba(124, 58, 237, 0.06), rgba(59, 130, 246, 0.04)); border-radius: 8px; border-left: 4px solid #7C3AED; border-right: 1px solid rgba(124, 58, 237, 0.2);">
                 <p style="font-size: 0.82rem; color: #666; margin: 0;">
-                    <a href="javascript: document.querySelector('iframe').src = document.querySelector('iframe').src;" style="color: #38CE3C; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                    <a href="javascript: document.querySelector('iframe').src = document.querySelector('iframe').src;" style="color: #7C3AED; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
                         <span style="font-size: 14px;">🔄</span> Refresh image
                     </a>
                     <span style="color: #ccc; margin: 0 8px;">•</span>
@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </p>
             </div>
 
-            <button type="submit" class="btn" style="background: linear-gradient(135deg, #38CE3C 0%, #2B9530 100%); margin-top: 10px;">Verify & Login</button>
+            <button type="submit" class="btn" style="background: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%); margin-top: 10px;">Verify & Login</button>
 
             <a href="login.php" class="small-link">Start over</a>
         <?php endif; ?>
