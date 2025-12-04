@@ -127,20 +127,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php else: ?>
             <!-- Step 2: CAPTCHA Verification -->
             <p style="text-align: center; margin: 20px 0; color: #666;">
-                Please verify you're human by entering the text from the image below.
+                Please verify you're human by entering the text from the security image below.
             </p>
 
-            <div style="text-align: center; margin: 20px 0;">
-                <img src="captcha.php?t=<?= time() ?>" alt="CAPTCHA verification image" style="border: 1px solid #ddd; border-radius: 4px; display: inline-block;">
+            <div style="text-align: center; margin: 25px 0; padding: 15px; background: linear-gradient(135deg, rgba(56, 206, 60, 0.08), rgba(24, 24, 36, 0.05)); border-radius: 8px; border: 2px solid rgba(56, 206, 60, 0.3);">
+                <img src="captcha.php?t=<?= time() ?>" alt="CAPTCHA security verification image" style="border: 3px solid #38CE3C; border-radius: 6px; display: inline-block; box-shadow: 0 4px 12px rgba(56, 206, 60, 0.2); background: #181824;">
             </div>
 
             <div class="form-group">
-                <label for="captcha">CAPTCHA Text</label>
-                <input id="captcha" type="text" name="captcha" placeholder="Enter the text above" required autocomplete="off" autofocus maxlength="6" style="text-transform: uppercase; letter-spacing: 2px; font-size: 18px; font-weight: bold; text-align: center;">
+                <label for="captcha" style="font-weight: 600; color: #181824;">Enter the text from the image *</label>
+                <input id="captcha" type="text" name="captcha" placeholder="E.g. ABC123" required autocomplete="off" autofocus maxlength="6" style="text-transform: uppercase; letter-spacing: 3px; font-size: 20px; font-weight: bold; text-align: center; font-family: 'Courier New', monospace; border: 2px solid #38CE3C; padding: 12px;">
             </div>
 
-            <p style="font-size: 0.85rem; color: #999; text-align: center; margin: 15px 0;">
-                Can't read it? <a href="javascript: location.reload();" style="color: #38CE3C; text-decoration: none;">Refresh image</a>
+            <p style="font-size: 0.85rem; color: #666; text-align: center; margin: 15px 0;">
+                <span style="display: inline-block; padding: 8px 16px; background: rgba(56, 206, 60, 0.1); border-radius: 4px; border-left: 3px solid #38CE3C;">
+                    Can't read it? <a href="javascript: location.reload();" style="color: #38CE3C; text-decoration: none; font-weight: 600;">🔄 Refresh image</a>
+                </span>
             </p>
 
             <button type="submit" class="btn">Verify & Login</button>
