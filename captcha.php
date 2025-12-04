@@ -1,8 +1,8 @@
 <?php
 /**
- * CAPTCHA Image Generator
- * Generates a dynamic CAPTCHA image with professional styling
- * Color scheme: Green (#38CE3C), Dark Navy (#181824)
+ * CAPTCHA HTML5 Canvas Generator
+ * Uses client-side Canvas rendering instead of GD library
+ * No server-side image generation needed
  */
 
 session_start();
@@ -10,117 +10,136 @@ session_start();
 // Ensure CAPTCHA exists in session
 if (!isset($_SESSION['captcha']) || empty($_SESSION['captcha']['text'])) {
     http_response_code(400);
-    exit;
+    exit('Invalid CAPTCHA session');
 }
 
 $captcha_text = $_SESSION['captcha']['text'];
 
-// Image dimensions
-$width = 300;
-$height = 100;
-
-// Create image
-$image = imagecreatetruecolor($width, $height);
-
-// Define colors (matching hotel theme)
-$bg_color = imagecolorallocate($image, 24, 24, 36);           // Dark Navy background (#181824)
-$primary_color = imagecolorallocate($image, 56, 206, 60);     // Green (#38CE3C)
-$accent_color = imagecolorallocate($image, 100, 220, 100);    // Light Green
-$text_color = imagecolorallocate($image, 255, 255, 255);      // White text
-$line_color = imagecolorallocate($image, 56, 206, 60);        // Green lines
-$noise_color = imagecolorallocate($image, 80, 130, 80);       // Dark green noise
-
-// Fill background with gradient effect
-imagefilledrectangle($image, 0, 0, $width, $height, $bg_color);
-
-// Add subtle gradient-like effect with horizontal stripes
-for ($i = 0; $i < $height; $i += 3) {
-    $shade = imagecolorallocate($image, 30 + ($i % 10), 30 + ($i % 10), 42 + ($i % 10));
-    imageline($image, 0, $i, $width, $i, $shade);
-}
-
-// Add decorative corner elements
-imagefilledrectangle($image, 0, 0, 30, 30, $primary_color);
-imagefilledrectangle($image, $width - 30, $height - 30, $width, $height, $primary_color);
-
-// Add corner triangles (green accent)
-$triangle_x = array($width, $width - 30, $width);
-$triangle_y = array(0, 30, 30);
-imagefilledpolygon($image, array_merge($triangle_x, $triangle_y), 3, $line_color);
-
-// Add animated-looking circles for decoration
-for ($i = 0; $i < 4; $i++) {
-    $cx = random_int(20, $width - 20);
-    $cy = random_int(10, $height - 10);
-    $radius = random_int(3, 8);
-    imageellipse($image, $cx, $cy, $radius * 2, $radius * 2, $noise_color);
-}
-
-// Add security dots/noise pattern
-for ($i = 0; $i < 150; $i++) {
-    $dot_color = (random_int(0, 1) === 0) ? $noise_color : $accent_color;
-    imagefilledellipse(
-        $image,
-        random_int(50, $width - 50),
-        random_int(15, $height - 15),
-        random_int(1, 2),
-        random_int(1, 2),
-        $dot_color
-    );
-}
-
-// Add protective lines (green grid pattern)
-for ($i = 0; $i < 5; $i++) {
-    $y = ($height / 5) * $i;
-    imageline($image, 0, $y, $width, $y, imagecolorallocate($image, 56, 206, 60, 20));
-}
-
-// Add anti-bot wavy distortion lines
-for ($i = 0; $i < 4; $i++) {
-    $x1 = random_int(0, $width / 2);
-    $y1 = random_int(0, $height);
-    $x2 = random_int($width / 2, $width);
-    $y2 = random_int(0, $height);
-    imageline($image, $x1, $y1, $x2, $y2, imagecolorallocate($image, 56, 206, 60, 30));
-}
-
-// Render CAPTCHA text with shadow effect and styling
-$char_positions = [];
-$char_width = imagefontwidth(5);
-$total_width = strlen($captcha_text) * ($char_width + 5);
-$start_x = ($width - $total_width) / 2;
-$base_y = ($height - 20) / 2 + 10;
-
-// Add text shadow for depth
-foreach (str_split($captcha_text) as $index => $char) {
-    $char_x = $start_x + ($index * ($char_width + 5));
-    $char_y = $base_y + random_int(-5, 5);
-    
-    // Shadow layer (dark green)
-    imagestring($image, 5, $char_x + 1, $char_y + 1, $char, $noise_color);
-    
-    // Main text layer (white with green outline)
-    imagestring($image, 5, $char_x - 1, $char_y - 1, $char, $accent_color);
-    imagestring($image, 5, $char_x, $char_y, $char, $text_color);
-    imagestring($image, 5, $char_x + 1, $char_y, $char, $line_color);
-}
-
-// Add professional border with green accent
-// Outer border (dark)
-imagerectangle($image, 0, 0, $width - 1, $height - 1, imagecolorallocate($image, 40, 40, 50));
-// Inner accent border (green)
-imagerectangle($image, 2, 2, $width - 3, $height - 3, $primary_color);
-
-// Add watermark-style text at bottom (very subtle)
-imagestring($image, 1, $width - 65, $height - 8, 'SECURITY', imagecolorallocate($image, 56, 100, 60));
-
-// Output image
-header('Content-Type: image/png');
-header('Cache-Control: no-cache, no-store, must-revalidate');
-header('Pragma: no-cache');
-header('Expires: 0');
-header('X-Content-Type-Options: nosniff');
-
-imagepng($image);
-imagedestroy($image);
+// Return HTML with Canvas-based CAPTCHA
+header('Content-Type: text/html; charset=utf-8');
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        canvas {
+            border: 3px solid #38CE3C;
+            border-radius: 6px;
+            display: inline-block;
+            background: #181824;
+            box-shadow: 0 4px 12px rgba(56, 206, 60, 0.2);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background: transparent;">
+    <canvas id="captcha" width="300" height="100"></canvas>
+    
+    <script>
+        const canvas = document.getElementById('captcha');
+        const ctx = canvas.getContext('2d');
+        const captchaText = '<?= htmlspecialchars($captcha_text, ENT_QUOTES) ?>';
+        
+        // Colors
+        const bgColor = '#181824';
+        const primaryColor = '#38CE3C';
+        const textColor = '#FFFFFF';
+        const accentColor = '#64DC64';
+        const darkGreen = '#287C28';
+        
+        function drawCaptcha() {
+            // Clear canvas
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Add background pattern
+            ctx.strokeStyle = 'rgba(56, 206, 60, 0.15)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < canvas.height; i += 10) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(canvas.width, i);
+                ctx.stroke();
+            }
+            
+            // Add noise dots
+            for (let i = 0; i < 100; i++) {
+                ctx.fillStyle = Math.random() > 0.5 ? accentColor : darkGreen;
+                ctx.globalAlpha = 0.6;
+                ctx.fillRect(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    2, 2
+                );
+                ctx.globalAlpha = 1.0;
+            }
+            
+            // Add distortion lines
+            ctx.strokeStyle = primaryColor;
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 3; i++) {
+                ctx.beginPath();
+                ctx.moveTo(Math.random() * canvas.width / 2, Math.random() * canvas.height);
+                ctx.lineTo(canvas.width / 2 + Math.random() * canvas.width / 2, Math.random() * canvas.height);
+                ctx.stroke();
+            }
+            
+            // Add corner decorations
+            ctx.fillStyle = primaryColor;
+            ctx.fillRect(0, 0, 40, 40);
+            ctx.fillRect(canvas.width - 40, canvas.height - 40, 40, 40);
+            
+            // Draw text with effects
+            ctx.font = 'bold 42px Arial, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            const textX = canvas.width / 2;
+            const textY = canvas.height / 2;
+            
+            // Shadow
+            ctx.fillStyle = darkGreen;
+            ctx.fillText(captchaText, textX + 2, textY + 2);
+            
+            // Outline
+            ctx.strokeStyle = accentColor;
+            ctx.lineWidth = 2;
+            ctx.strokeText(captchaText, textX, textY);
+            
+            // Main text
+            ctx.fillStyle = textColor;
+            ctx.fillText(captchaText, textX, textY);
+            
+            // Add security text
+            ctx.font = '10px Arial';
+            ctx.fillStyle = accentColor;
+            ctx.globalAlpha = 0.7;
+            ctx.fillText('SECURITY', 20, canvas.height - 10);
+            ctx.globalAlpha = 1.0;
+            
+            // Draw borders
+            ctx.strokeStyle = primaryColor;
+            ctx.lineWidth = 3;
+            ctx.strokeRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = darkGreen;
+            ctx.lineWidth = 1;
+            ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+        }
+        
+        // Draw CAPTCHA
+        drawCaptcha();
+        
+        // Allow refresh on click
+        canvas.addEventListener('click', function() {
+            drawCaptcha();
+        });
+        
+        // Store text for verification (optional visual feedback)
+        window.captchaText = captchaText;
+    </script>
+</body>
+</html>
+
+

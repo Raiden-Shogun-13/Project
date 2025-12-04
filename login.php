@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </p>
 
             <div style="text-align: center; margin: 25px 0; padding: 15px; background: linear-gradient(135deg, rgba(56, 206, 60, 0.08), rgba(24, 24, 36, 0.05)); border-radius: 8px; border: 2px solid rgba(56, 206, 60, 0.3);">
-                <img src="captcha.php?t=<?= time() ?>" alt="CAPTCHA security verification image" style="border: 3px solid #38CE3C; border-radius: 6px; display: inline-block; box-shadow: 0 4px 12px rgba(56, 206, 60, 0.2); background: #181824;">
+                <iframe src="captcha.php" style="border: none; width: 330px; height: 130px; border-radius: 6px; display: inline-block; vertical-align: middle; margin: 0; padding: 0;"></iframe>
             </div>
 
             <div class="form-group">
