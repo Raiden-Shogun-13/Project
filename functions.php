@@ -71,3 +71,52 @@ function current_user($pdo) {
     $stmt->execute([$_SESSION['user_id']]);
     return $stmt->fetch();
 }
+
+// Generate random CAPTCHA text (6 characters)
+function generate_captcha_text($length = 6) {
+    $chars = 'ACDEFGHJKLMNPQRTWXYZ23456789';
+    $captcha = '';
+    for ($i = 0; $i < $length; $i++) {
+        $captcha .= $chars[random_int(0, strlen($chars) - 1)];
+    }
+    return $captcha;
+}
+
+// Store CAPTCHA in session and return text
+function create_captcha() {
+    $captcha_text = generate_captcha_text(6);
+    $_SESSION['captcha'] = [
+        'text' => $captcha_text,
+        'created' => time(),
+        'expires' => time() + 600 // 10 minutes
+    ];
+    return $captcha_text;
+}
+
+// Verify user's CAPTCHA input
+function verify_captcha($user_input) {
+    if (!isset($_SESSION['captcha'])) {
+        return false;
+    }
+    
+    $captcha = $_SESSION['captcha'];
+    
+    // Check if expired
+    if (time() > $captcha['expires']) {
+        unset($_SESSION['captcha']);
+        return false;
+    }
+    
+    // Case-insensitive comparison
+    $matches = hash_equals(
+        strtoupper(trim($captcha['text'])),
+        strtoupper(trim($user_input))
+    );
+    
+    if ($matches) {
+        unset($_SESSION['captcha']); // Clear after successful verification
+    }
+    
+    return $matches;
+}
+
